@@ -39,7 +39,7 @@ public class SleepPlugin extends JavaPlugin implements Listener {
     
     private static final long PROGRESS_MESSAGE_COOLDOWN = 3000;
     
-    private static final String PLUGIN_VERSION = "1.0.2";
+    private static final String PLUGIN_VERSION = "1.0.3";
     
     @Override
     public void onEnable() {
@@ -77,17 +77,35 @@ public class SleepPlugin extends JavaPlugin implements Listener {
     }
     
     private void updateLanguageFiles(ConfigUpdater configUpdater) {
-        String[] supportedLanguages = {"en_EN", "ru_RU"};
-        
         File langDir = new File(getDataFolder(), "lang");
         if (!langDir.exists()) {
             langDir.mkdirs();
         }
-        
-        for (String langCode : supportedLanguages) {
+        String[] bundledLanguages = {"en_EN", "ru_RU"};
+        for (String langCode : bundledLanguages) {
             boolean updated = configUpdater.updateLanguageFile(langCode);
             if (updated) {
                 getLogger().info("Language file " + langCode + ".yml has been updated to v" + PLUGIN_VERSION);
+            }
+        }
+        
+        File[] langFiles = langDir.listFiles((dir, name) -> name.endsWith(".yml"));
+        if (langFiles != null) {
+            for (File langFile : langFiles) {
+                String fileName = langFile.getName();
+                String langCode = fileName.replace(".yml", "");
+                
+                boolean isBundled = false;
+                for (String bundled : bundledLanguages) {
+                    if (bundled.equals(langCode)) {
+                        isBundled = true;
+                        break;
+                    }
+                }
+                
+                if (!isBundled) {
+                    getLogger().info("Found custom language file: " + langCode + ".yml");
+                }
             }
         }
     }
@@ -383,7 +401,7 @@ public class SleepPlugin extends JavaPlugin implements Listener {
         String[] infoLines = {
             "\n",
             "  ╔═════════════════════════════════════════════════════╗",
-            "  ║                  SleepPlugin v1.0.2                 ║",
+            "  ║                  SleepPlugin v1.0.3                 ║",
             "  ╠═════════════════════════════════════════════════════╣",
             "  ║  Author: NovaDAndrew                                ║",
             "  ║  Modrinth: https://modrinth.com/plugin/sleep-plugin ║",
@@ -394,7 +412,7 @@ public class SleepPlugin extends JavaPlugin implements Listener {
             "  ║  • Multiple message modes (normal/minimal/silent)   ║",
             "  ║  • Configurable minimum player requirement          ║",
             "  ║  • Smooth time transition (day/night)               ║",
-            "  ║  • Multi-language support (EN/RU)                   ║",
+            "  ║  • Multi-language support (EN/RU + custom langs)    ║",
             "  ╚═════════════════════════════════════════════════════╝",
             ""
         };

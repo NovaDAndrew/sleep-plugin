@@ -1,5 +1,10 @@
 # SleepPlugin
 
+[![Build](https://github.com/NovaDAndrew/sleep-plugin/actions/workflows/build.yml/badge.svg)](https://github.com/NovaDAndrew/sleep-plugin/actions/workflows/build.yml)
+[![Code Quality](https://github.com/NovaDAndrew/sleep-plugin/actions/workflows/quality-check.yml/badge.svg)](https://github.com/NovaDAndrew/sleep-plugin/actions/workflows/quality-check.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Modrinth](https://img.shields.io/modrinth/dt/sleep-plugin?label=Modrinth&logo=modrinth)](https://modrinth.com/plugin/sleep-plugin)
+
 Minecraft Paper 1.21.х plugin for enhanced sleep mechanics - only half of online players need to sleep to skip the night.
 
 ## Features
@@ -12,7 +17,7 @@ Minecraft Paper 1.21.х plugin for enhanced sleep mechanics - only half of onlin
 - Smooth time transition from night to morning
 - Configuration update system (preserves settings during updates)
 - Multi-world support
-- Multi-language support (English and Russian)
+- Multi-language support (English, Russian, and custom languages)
 
 ## Examples
 
@@ -30,7 +35,7 @@ Minecraft Paper 1.21.х plugin for enhanced sleep mechanics - only half of onlin
 
 ## Installation
 
-1. Download `SleepPlugin-1.0.2.jar`
+1. Download `SleepPlugin-1.0.3.jar`
 2. Place in server's `plugins` folder
 3. Restart server
 
@@ -41,7 +46,7 @@ After first server start with the plugin, a configuration file will be created a
 ```yaml
 # SleepPlugin Configuration
 # Do not change this version number manually
-version: "1.0.2"
+version: "1.0.3"
 
 language: en_EN  
 skip-delay: 3   
@@ -74,6 +79,19 @@ storm-settings:
   - `steps`: Number of intermediate steps (higher = smoother)
 - `storm-settings`: Settings for the storm skipping feature
   - `skip-storms`: When true, players can skip storms by sleeping
+
+## Custom Language Files
+
+You can create your own language translations by:
+
+1. Navigate to `plugins/SleepPlugin/lang/`
+2. Copy `en_EN.yml` or `ru_RU.yml` as a template
+3. Rename it to your language code (e.g., `de_DE.yml`, `fr_FR.yml`, `es_ES.yml`)
+4. Translate all message strings in the file
+5. Set `language: de_DE` (or your language code) in `config.yml`
+6. Restart the server
+
+The plugin will automatically detect and load any custom language file you create!
 
 ## Building
 

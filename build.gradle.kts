@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "com.sleapplugin"
-version = "1.0.2"
+version = "1.0.3"
 description = "A plugin that allows night skip with half of online players"
 
 repositories {
@@ -26,7 +26,7 @@ java {
 paper {
     main = "com.sleapplugin.SleepPlugin"
     name = "SleepPlugin"
-    version = "1.0.2"
+    version = "1.0.3"
     description = "A plugin that allows night skip with half of online players"
     apiVersion = "1.21"
     author = "NovaDAndrew" //Puer33 minecraft nickname

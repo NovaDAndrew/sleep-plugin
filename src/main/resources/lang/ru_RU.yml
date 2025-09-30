@@ -1,5 +1,5 @@
 # Не изменяйте этот номер версии вручную
-version: "1.0.2"
+version: "1.0.3"
 
 plugin_enabled: "SleepPlugin включен! Теперь для пропуска ночи нужна только половина игроков."
 plugin_disabled: "SleepPlugin отключен!"

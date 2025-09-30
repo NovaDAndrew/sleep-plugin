@@ -9,8 +9,6 @@ import org.bukkit.event.player.PlayerBedEnterEvent;
 import org.bukkit.event.player.PlayerBedLeaveEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
 
 import java.io.File;
 import java.util.HashMap;
@@ -39,7 +37,7 @@ public class SleepPlugin extends JavaPlugin implements Listener {
     
     private static final long PROGRESS_MESSAGE_COOLDOWN = 3000;
     
-    private static final String PLUGIN_VERSION = "1.0.2";
+    private static final String PLUGIN_VERSION = "1.0.3";
     
     @Override
     public void onEnable() {
@@ -77,17 +75,43 @@ public class SleepPlugin extends JavaPlugin implements Listener {
     }
     
     private void updateLanguageFiles(ConfigUpdater configUpdater) {
-        String[] supportedLanguages = {"en_EN", "ru_RU"};
-        
         File langDir = new File(getDataFolder(), "lang");
         if (!langDir.exists()) {
             langDir.mkdirs();
         }
         
-        for (String langCode : supportedLanguages) {
+        File templateFile = new File(langDir, "template.yml");
+        if (!templateFile.exists()) {
+            saveResource("lang/template.yml", false);
+            getLogger().info("Created template.yml for custom translations");
+        }
+        
+        String[] bundledLanguages = {"en_EN", "ru_RU"};
+        for (String langCode : bundledLanguages) {
             boolean updated = configUpdater.updateLanguageFile(langCode);
             if (updated) {
                 getLogger().info("Language file " + langCode + ".yml has been updated to v" + PLUGIN_VERSION);
+            }
+        }
+        
+        File[] langFiles = langDir.listFiles((dir, name) -> name.endsWith(".yml"));
+        if (langFiles != null) {
+            for (File langFile : langFiles) {
+                String fileName = langFile.getName();
+                String langCode = fileName.replace(".yml", "");
+                
+                boolean isBundled = false;
+                for (String bundled : bundledLanguages) {
+                    if (bundled.equals(langCode)) {
+                        isBundled = true;
+                        break;
+                    }
+                }
+                
+                // Skip template file
+                if (!isBundled && !langCode.equals("template")) {
+                    getLogger().info("Found custom language file: " + langCode + ".yml");
+                }
             }
         }
     }
@@ -152,7 +176,7 @@ public class SleepPlugin extends JavaPlugin implements Listener {
             
             if (!messageMode.equals("silent")) {
                 String messageKey = messageMode.equals("minimal") ? "sleep_canceled_minimal" : "sleep_canceled";
-                broadcastToWorld(world, Component.text(lang.getMessage(messageKey), NamedTextColor.YELLOW));
+                broadcastToWorld(world, lang.getMessage(messageKey), MessageUtil.MessageColor.YELLOW);
             }
         }
     }
@@ -236,7 +260,7 @@ public class SleepPlugin extends JavaPlugin implements Listener {
                     message = lang.getMessage(messageKey, skipDelay, sleepingCount, totalCount);
                 }
                 
-                broadcastToWorld(world, Component.text(message, NamedTextColor.GREEN));
+                broadcastToWorld(world, message, MessageUtil.MessageColor.GREEN);
             }
         }
         
@@ -299,7 +323,7 @@ public class SleepPlugin extends JavaPlugin implements Listener {
                                         baseKey + "_success_minimal" : baseKey + "_success";
                                 }
                                 
-                                broadcastToWorld(world, Component.text(lang.getMessage(messageKey), NamedTextColor.GOLD));
+                                broadcastToWorld(world, lang.getMessage(messageKey), MessageUtil.MessageColor.GOLD);
                             }
                         }
                     }
@@ -339,16 +363,15 @@ public class SleepPlugin extends JavaPlugin implements Listener {
         return time >= 12541 && time <= 23458; 
     }
     
-    private void broadcastToWorld(World world, Component message) {
+    private void broadcastToWorld(World world, String message, MessageUtil.MessageColor color) {
         for (Player player : world.getPlayers()) {
-            player.sendMessage(message);
+            MessageUtil.sendMessage(player, message, color);
         }
     }
     
     private void sendMessageToWorld(World world, String message) {
-        Component component = Component.text(message);
         for (Player player : world.getPlayers()) {
-            player.sendMessage(component);
+            MessageUtil.sendMessage(player, message, MessageUtil.MessageColor.WHITE);
         }
     }
     
@@ -382,20 +405,21 @@ public class SleepPlugin extends JavaPlugin implements Listener {
     private void displayPluginInfo() {
         String[] infoLines = {
             "\n",
-            "  ╔═════════════════════════════════════════════════════╗",
-            "  ║                  SleepPlugin v1.0.2                 ║",
-            "  ╠═════════════════════════════════════════════════════╣",
-            "  ║  Author: NovaDAndrew                                ║",
-            "  ║  Modrinth: https://modrinth.com/plugin/sleep-plugin ║",
-            "  ║  GitHub: https://github.com/NovaDAndrew/sleep-plugin║",
-            "  ╠═════════════════════════════════════════════════════╣",
-            "  ║  Features:                                          ║",
-            "  ║  • Skip night with only half of players sleeping    ║",
-            "  ║  • Multiple message modes (normal/minimal/silent)   ║",
-            "  ║  • Configurable minimum player requirement          ║",
-            "  ║  • Smooth time transition (day/night)               ║",
-            "  ║  • Multi-language support (EN/RU)                   ║",
-            "  ╚═════════════════════════════════════════════════════╝",
+            "  ╔═════════════════════════════════════════════════════════╗",
+            "  ║                    SleepPlugin v1.0.3                   ║",
+            "  ╠═════════════════════════════════════════════════════════╣",
+            "  ║  Author: NovaDAndrew                                    ║",
+            "  ║  Modrinth: https://modrinth.com/plugin/sleep-plugin     ║",
+            "  ║  GitHub: https://github.com/NovaDAndrew/sleep-plugin    ║",
+            "  ╠═════════════════════════════════════════════════════════╣",
+            "  ║  Features:                                              ║",
+            "  ║  • Skip night with only half of players sleeping        ║",
+            "  ║  • Multiple message modes (normal/minimal/silent)       ║",
+            "  ║  • Configurable minimum player requirement              ║",
+            "  ║  • Smooth time transition (day/night)                   ║",
+            "  ║  • Multi-language support (EN/RU + custom langs)        ║",
+            "  ║  • Compatible with both Paper and Spigot servers        ║",
+            "  ╚═════════════════════════════════════════════════════════╝",
             ""
         };
         

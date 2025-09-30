@@ -1,5 +1,26 @@
 # SleepPlugin Changelog
 
+## Version 1.0.3 (2025-10-xx)
+
+### New Features
+- Added support for custom language files - users can now create their own localizations beyond English and Russian
+- Added `template.yml` language file template for easier translation creation
+- Added GitHub Actions for automated builds and releases
+
+### Improvements
+- Removed language file validation restrictions - any custom language file is now automatically supported
+- Enhanced LanguageManager to dynamically load any .yml language file from the lang/ directory
+- Added automated CI/CD pipeline with GitHub Actions
+- Added build status badges to README
+
+### Technical Changes
+- Language files are no longer restricted to en_EN and ru_RU only
+- Plugin now accepts any valid language code format (e.g., de_DE, fr_FR, es_ES, etc.)
+- Created three GitHub Actions workflows: build, release, and quality check
+- Automated release creation when version tags are pushed
+
+---
+
 ## Version 1.0.2 (2025-05-25)
 
 ### New Features

@@ -12,7 +12,7 @@ Minecraft Paper 1.21.x plugin for enhanced sleep mechanics - only half of online
 - Smooth time transition from night to morning
 - Configuration update system (preserves settings during updates)
 - Multi-world support
-- Multi-language support (English and Russian)
+- Multi-language support (English, Russian, and custom languages)
 
 ## Examples
 
@@ -29,7 +29,7 @@ After first server start with the plugin, a configuration file will be created a
 ```yaml
 # SleepPlugin Configuration
 # Do not change this version number manually
-version: "1.0.2"
+version: "1.0.3"
 
 language: en_EN  
 skip-delay: 3    
@@ -62,3 +62,18 @@ storm-settings:
   - `steps`: Number of intermediate steps (higher = smoother)
 - `storm-settings`: Settings for the storm skipping feature
   - `skip-storms`: When true, players can skip storms by sleeping
+
+## Custom Language Files
+
+You can create your own language translations:
+
+1. Navigate to `plugins/SleepPlugin/lang/`
+2. Copy `template.yml` as a template
+3. Rename to your language code (e.g., `de_DE.yml`, `fr_FR.yml`)
+4. Translate all message strings
+5. Set `language: de_DE` in `config.yml`
+6. Restart server
+
+The plugin automatically detects all custom language files!
+
+**Tip:** Use `template.yml` - it has helpful comments for translators.

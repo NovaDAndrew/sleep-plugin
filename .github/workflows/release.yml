@@ -1,0 +1,67 @@
+name: Create Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Set up JDK 21
+      uses: actions/setup-java@v4
+      with:
+        java-version: '21'
+        distribution: 'temurin'
+        cache: 'gradle'
+        
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+      
+    - name: Build with Gradle
+      run: ./gradlew build
+      
+    - name: Get version from tag
+      id: get_version
+      run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+      
+    - name: Extract changelog for this version
+      id: changelog
+      run: |
+        # Extract changelog section for current version
+        VERSION=${{ steps.get_version.outputs.VERSION }}
+        CHANGELOG=$(sed -n "/## Version $VERSION/,/^## Version/p" CHANGELOG.md | sed '$d' | tail -n +2)
+        echo "CHANGELOG<<EOF" >> $GITHUB_OUTPUT
+        echo "$CHANGELOG" >> $GITHUB_OUTPUT
+        echo "EOF" >> $GITHUB_OUTPUT
+        
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: build/libs/*.jar
+        body: |
+          # SleepPlugin v${{ steps.get_version.outputs.VERSION }}
+          
+          ## Changes
+          ${{ steps.changelog.outputs.CHANGELOG }}
+          
+          ## Installation
+          1. Download `SleepPlugin-${{ steps.get_version.outputs.VERSION }}.jar`
+          2. Place in your server's `plugins/` folder
+          3. Restart the server
+          
+          ## Requirements
+          - Minecraft: 1.21.5
+          - Server: Paper (or compatible)
+          - Java: 21+
+        draft: false
+        prerelease: false
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

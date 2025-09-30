@@ -1,6 +1,7 @@
 plugins {
     java
-    id("net.minecrell.plugin-yml.paper") version "0.6.0"
+    id("net.minecrell.plugin-yml.bukkit") version "0.6.0"
+    id("com.github.johnrengelman.shadow") version "8.1.1"
 }
 
 group = "com.sleapplugin"
@@ -13,17 +14,36 @@ repositories {
         name = "papermc"
         url = uri("https://repo.papermc.io/repository/maven-public/")
     }
+    maven {
+        name = "spigotmc"
+        url = uri("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
+    }
+    maven {
+        name = "sonatype"
+        url = uri("https://oss.sonatype.org/content/repositories/snapshots")
+    }
+    maven {
+        name = "sonatype-central"
+        url = uri("https://oss.sonatype.org/content/repositories/central")
+    }
+}
+
+configurations {
+    create("paperApi")
+    create("spigotApi")
 }
 
 dependencies {
     compileOnly("io.papermc.paper:paper-api:1.21.5-R0.1-SNAPSHOT")
+    "paperApi"("io.papermc.paper:paper-api:1.21.5-R0.1-SNAPSHOT")
+    "spigotApi"("org.spigotmc:spigot-api:1.21.5-R0.1-SNAPSHOT")
 }
 
 java {
     toolchain.languageVersion.set(JavaLanguageVersion.of(21))
 }
 
-paper {
+bukkit {
     main = "com.sleapplugin.SleepPlugin"
     name = "SleepPlugin"
     version = "1.0.3"
@@ -35,6 +55,18 @@ paper {
         register("sleepplugin.admin") {
             description = "Allows access to sleep plugin admin commands"
             default = net.minecrell.pluginyml.bukkit.BukkitPluginDescription.Permission.Default.OP
+        }
+    }
+}
+
+tasks {
+    jar {
+        manifest {
+            attributes(
+                "Implementation-Title" to project.name,
+                "Implementation-Version" to project.version,
+                "Implementation-Vendor" to "NovaDAndrew"
+            )
         }
     }
 }

@@ -85,13 +85,15 @@ storm-settings:
 You can create your own language translations by:
 
 1. Navigate to `plugins/SleepPlugin/lang/`
-2. Copy `en_EN.yml` or `ru_RU.yml` as a template
+2. Copy `template.yml` (automatically created on first run) or `en_EN.yml`/`ru_RU.yml` as a template
 3. Rename it to your language code (e.g., `de_DE.yml`, `fr_FR.yml`, `es_ES.yml`)
 4. Translate all message strings in the file
 5. Set `language: de_DE` (or your language code) in `config.yml`
 6. Restart the server
 
 The plugin will automatically detect and load any custom language file you create!
+
+**Note:** `template.yml` is created automatically on first plugin startup with helpful comments for translation.
 
 ## Building
 

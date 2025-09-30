@@ -79,6 +79,13 @@ public class SleepPlugin extends JavaPlugin implements Listener {
         if (!langDir.exists()) {
             langDir.mkdirs();
         }
+        
+        File templateFile = new File(langDir, "template.yml");
+        if (!templateFile.exists()) {
+            saveResource("lang/template.yml", false);
+            getLogger().info("Created template.yml for custom translations");
+        }
+        
         String[] bundledLanguages = {"en_EN", "ru_RU"};
         for (String langCode : bundledLanguages) {
             boolean updated = configUpdater.updateLanguageFile(langCode);
@@ -101,7 +108,8 @@ public class SleepPlugin extends JavaPlugin implements Listener {
                     }
                 }
                 
-                if (!isBundled) {
+                // Skip template file
+                if (!isBundled && !langCode.equals("template")) {
                     getLogger().info("Found custom language file: " + langCode + ".yml");
                 }
             }

@@ -22,5 +22,5 @@ tasks.jar {
             "Implementation-Vendor" to "NovaDAndrew"
         )
     }
+    archiveFileName.set("SleepPlugin-${project.version}-forge.jar")
 }
-

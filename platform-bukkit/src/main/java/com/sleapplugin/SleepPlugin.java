@@ -24,6 +24,7 @@ public class SleepPlugin extends JavaPlugin implements Listener {
 
     private final Map<World, Set<Player>> sleepingPlayers = new HashMap<>();
     private final Map<World, BukkitRunnable> sleepTasks = new HashMap<>();
+    private final Map<World, Integer> sleepTaskGeneration = new ConcurrentHashMap<>();
     private final Map<UUID, Long> lastProgressMessageTime = new ConcurrentHashMap<>();
     private LanguageManager lang;
 
@@ -173,10 +174,8 @@ public class SleepPlugin extends JavaPlugin implements Listener {
         int requiredSleeping = sleepCalculator.calculateRequiredSleeping(onlinePlayersInWorld);
 
         int currentSleeping = sleeping != null ? sleeping.size() : 0;
-        BukkitRunnable task = sleepTasks.get(world);
-        if (task != null && !task.isCancelled() && currentSleeping < requiredSleeping) {
-            task.cancel();
-            sleepTasks.remove(world);
+        if (currentSleeping < requiredSleeping) {
+            sleepTaskGeneration.compute(world, (w, g) -> g == null ? 1 : g + 1);
 
             if (!messageMode.equals("silent")) {
                 String messageKey = messageMode.equals("minimal") ? "sleep_canceled_minimal" : "sleep_canceled";
@@ -228,10 +227,7 @@ public class SleepPlugin extends JavaPlugin implements Listener {
     }
 
     private void startNightSkip(World world, int sleepingCount, int totalCount) {
-        BukkitRunnable existingTask = sleepTasks.get(world);
-        if (existingTask != null && !existingTask.isCancelled()) {
-            existingTask.cancel();
-        }
+        int generation = sleepTaskGeneration.compute(world, (w, g) -> g == null ? 1 : g + 1);
 
         if (!messageMode.equals("silent")) {
             UUID worldId = world.getUID();
@@ -256,12 +252,13 @@ public class SleepPlugin extends JavaPlugin implements Listener {
             }
         }
 
-        BukkitRunnable task = new BukkitRunnable() {
-            @Override
-            public void run() {
+        Runnable task = () -> {
+                Integer currentGen = sleepTaskGeneration.get(world);
+                if (currentGen == null || !currentGen.equals(generation)) {
+                    return;
+                }
                 Set<Player> currentSleeping = sleepingPlayers.get(world);
                 if (currentSleeping == null || currentSleeping.isEmpty()) {
-                    sleepTasks.remove(world);
                     return;
                 }
 
@@ -323,12 +320,9 @@ public class SleepPlugin extends JavaPlugin implements Listener {
                     sleepingPlayers.remove(world);
                 }
 
-                sleepTasks.remove(world);
-            }
         };
 
-        task.runTaskLater(this, skipDelay * 20L);
-        sleepTasks.put(world, task);
+        SchedulerAdapter.runLater(this, world, task, skipDelay * 20L);
     }
 
     private boolean isNightOrStorm(World world) {
@@ -393,7 +387,7 @@ public class SleepPlugin extends JavaPlugin implements Listener {
         String[] infoLines = {
                 "\n",
                 "  ╔═════════════════════════════════════════════════════════╗",
-                "  ║                    SleepPlugin v1.0.3                   ║",
+                "  ║                    SleepPlugin v1.0.4                   ║",
                 "  ╠═════════════════════════════════════════════════════════╣",
                 "  ║  Author: NovaDAndrew                                    ║",
                 "  ║  Modrinth: https://modrinth.com/plugin/sleep-plugin     ║",

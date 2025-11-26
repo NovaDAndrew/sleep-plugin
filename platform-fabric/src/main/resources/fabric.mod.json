@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "id": "sleepplugin",
+  "version": "${version}",
+  "name": "SleepPlugin",
+  "description": "A plugin that allows night skip with half of online players",
+  "environment": "server",
+  "entrypoints": {
+    "main": ["com.sleapplugin.fabric.FabricEntrypoint"]
+  },
+  "depends": {
+    "fabricloader": ">=0.14.0"
+  },
+  "contact": {
+    "homepage": "https://github.com/NovaDAndrew/sleep-plugin",
+    "issues": "https://github.com/NovaDAndrew/sleep-plugin/issues"
+  }
+}

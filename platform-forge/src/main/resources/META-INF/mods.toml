@@ -1,0 +1,12 @@
+modLoader="javafml"
+loaderVersion="[*]"
+license="MIT"
+
+[[mods]]
+modId="sleepplugin"
+version="${file.jarVersion}"
+displayName="SleepPlugin"
+description="A plugin that allows night skip with half of online players"
+authors=["NovaDAndrew"]
+updateJSONURL="https://github.com/NovaDAndrew/sleep-plugin/releases/latest"
+

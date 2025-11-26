@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "quilt_loader": {
+    "group": "com.sleapplugin",
+    "id": "sleepplugin",
+    "version": "${version}",
+    "metadata": {
+      "name": "SleepPlugin",
+      "description": "A plugin that allows night skip with half of online players",
+      "contact": {
+        "homepage": "https://github.com/NovaDAndrew/sleep-plugin",
+        "issues": "https://github.com/NovaDAndrew/sleep-plugin/issues"
+      }
+    },
+    "intermediate_mappings": "net.fabricmc:intermediary",
+    "entrypoints": {
+      "init": ["com.sleapplugin.quilt.QuiltEntrypoint"]
+    }
+  }
+}

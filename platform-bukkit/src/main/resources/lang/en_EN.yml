@@ -1,35 +1,22 @@
-# Language Template for SleepPlugin
-# Copy this file and rename it to your language code (e.g., de_DE.yml, fr_FR.yml, es_ES.yml)
-# Translate all the messages below to your language
-# Do not change the keys (text before the colon), only translate the values (text after the colon)
-# Use %d for numbers and %s for text placeholders - keep them in your translations
-
 # Do not change this version number manually
-version: "1.0.3"
+version: "1.0.4"
 
-# Basic plugin messages
 plugin_enabled: "SleepPlugin enabled! Now only half of the players are needed to skip the night."
 plugin_disabled: "SleepPlugin disabled!"
 config_updated: "Configuration updated from v%s to v%s. Added %d new settings."
-
-# Sleep progress messages (normal mode)
 sleep_progress: "Sleeping %d of %d players required to skip the night"
 sleep_countdown: "Skipping night in %d seconds... (%d/%d players sleeping)"
 sleep_canceled: "Night skip canceled - player woke up!"
 sleep_success: "Night skipped! Good morning!"
 sleep_skipping_smooth: "Skipping night..."
 
-# Sleep messages (minimal mode)
 sleep_countdown_minimal: "Skipping night (%d/%d)"
 sleep_canceled_minimal: "Skip canceled"
 sleep_success_minimal: "Morning!"
 sleep_skipping_smooth_minimal: "Skipping..."
 
-# Storm messages (normal mode)
 storm_progress: "Sleeping %d of %d players required to clear the storm"
 storm_countdown: "Clearing storm in %d seconds... (%d/%d players sleeping)"
 storm_success: "Storm cleared! The skies are clear again!"
-
-# Storm messages (minimal mode)
 storm_countdown_minimal: "Clearing storm (%d/%d)"
 storm_success_minimal: "Storm cleared!"

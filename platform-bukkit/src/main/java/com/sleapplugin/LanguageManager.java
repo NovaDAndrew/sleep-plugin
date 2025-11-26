@@ -13,22 +13,22 @@ public class LanguageManager {
     private final JavaPlugin plugin;
     private final String language;
     private YamlConfiguration langConfig;
-    
+
     public LanguageManager(JavaPlugin plugin, String language) {
         this.plugin = plugin;
         this.language = language;
         loadLanguage();
     }
-    
+
     private void loadLanguage() {
         String fileName = language + ".yml";
-        
+
         try {
             File langFile = new File(plugin.getDataFolder(), "lang" + File.separator + fileName);
-            
+
             if (!langFile.exists()) {
                 langFile.getParentFile().mkdirs();
-                
+
                 InputStream defaultLangStream = plugin.getResource("lang/" + fileName);
                 if (defaultLangStream != null) {
                     plugin.saveResource("lang/" + fileName, false);
@@ -36,10 +36,10 @@ public class LanguageManager {
                     plugin.getLogger().warning("Could not find default language file: " + fileName);
                 }
             }
-            
+
             if (langFile.exists()) {
                 langConfig = YamlConfiguration.loadConfiguration(langFile);
-                
+
                 InputStream defaultLangStream = plugin.getResource("lang/" + fileName);
                 if (defaultLangStream != null) {
                     YamlConfiguration defaultConfig = YamlConfiguration.loadConfiguration(
@@ -61,7 +61,7 @@ public class LanguageManager {
             langConfig = new YamlConfiguration();
         }
     }
-    
+
     public String getMessage(String key) {
         if (langConfig.contains(key)) {
             return langConfig.getString(key);
@@ -70,7 +70,7 @@ public class LanguageManager {
             return "Missing text for: " + key;
         }
     }
-    
+
     public String getMessage(String key, Object... args) {
         String message = getMessage(key);
         if (message != null && args != null && args.length > 0) {
@@ -79,3 +79,4 @@ public class LanguageManager {
         return message;
     }
 }
+

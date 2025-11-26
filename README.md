@@ -5,7 +5,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Modrinth](https://img.shields.io/modrinth/dt/sleep-plugin?label=Modrinth&logo=modrinth)](https://modrinth.com/plugin/sleep-plugin)
 
-Minecraft Paper 1.21.х plugin for enhanced sleep mechanics - only half of online players need to sleep to skip the night.
+Minecraft plugin for enhanced sleep mechanics — only half of online players need to sleep to skip the night. Multi-platform workspace: Bukkit family (Spigot/Paper/Purpur/Folia), Fabric, Quilt, Forge, NeoForge.
 
 ## Features
 
@@ -30,14 +30,16 @@ Minecraft Paper 1.21.х plugin for enhanced sleep mechanics - only half of onlin
 ## Requirements
 
 - Minecraft: 1.21.5
-- Server: Paper (or compatible)
+- Server/Loader: Bukkit family (Spigot/Paper/Purpur/Folia) or Fabric/Quilt/Forge/NeoForge
 - Java: 21+
 
 ## Installation
 
-1. Download `SleepPlugin-1.0.3.jar`
-2. Place in server's `plugins` folder
-3. Restart server
+- Bukkit/Spigot/Paper/Folia: download `platform-bukkit-1.0.4.jar`, place in `plugins/`, restart
+- Fabric: download `platform-fabric-1.0.4.jar` (requires proper Fabric mod loader setup)
+- Quilt: download `platform-quilt-1.0.4.jar` (requires Quilt loader)
+- Forge: download `platform-forge-1.0.4.jar` (requires Forge setup)
+- NeoForge: download `platform-neoforge-1.0.4.jar` (requires NeoForge setup)
 
 ## Configuration
 
@@ -46,7 +48,7 @@ After first server start with the plugin, a configuration file will be created a
 ```yaml
 # SleepPlugin Configuration
 # Do not change this version number manually
-version: "1.0.3"
+version: "1.0.4"
 
 language: en_EN  
 skip-delay: 3   

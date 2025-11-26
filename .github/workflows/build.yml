@@ -27,16 +27,25 @@ jobs:
       
     - name: Build with Gradle
       run: ./gradlew build
-      
-    - name: Upload build artifact
+    
+    - name: Upload platform artifacts
       uses: actions/upload-artifact@v4
       with:
         name: SleepPlugin-${{ github.sha }}
-        path: build/libs/*.jar
+        path: |
+          platform-bukkit/build/libs/*.jar
+          platform-fabric/build/libs/*.jar
+          platform-quilt/build/libs/*.jar
+          platform-forge/build/libs/*.jar
+          platform-neoforge/build/libs/*.jar
         retention-days: 30
         
     - name: Display build info
       run: |
         echo "Build completed successfully!"
-        echo "Artifact location: build/libs/"
-        ls -lh build/libs/
+        echo "Artifacts:"
+        ls -lh platform-bukkit/build/libs/ || true
+        ls -lh platform-fabric/build/libs/ || true
+        ls -lh platform-quilt/build/libs/ || true
+        ls -lh platform-forge/build/libs/ || true
+        ls -lh platform-neoforge/build/libs/ || true

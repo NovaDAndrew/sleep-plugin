@@ -45,7 +45,12 @@ jobs:
     - name: Create GitHub Release
       uses: softprops/action-gh-release@v1
       with:
-        files: build/libs/*.jar
+        files: |
+          platform-bukkit/build/libs/*.jar
+          platform-fabric/build/libs/*.jar
+          platform-quilt/build/libs/*.jar
+          platform-forge/build/libs/*.jar
+          platform-neoforge/build/libs/*.jar
         body: |
           # SleepPlugin v${{ steps.get_version.outputs.VERSION }}
           
@@ -53,13 +58,15 @@ jobs:
           ${{ steps.changelog.outputs.CHANGELOG }}
           
           ## Installation
-          1. Download `SleepPlugin-${{ steps.get_version.outputs.VERSION }}.jar`
-          2. Place in your server's `plugins/` folder
-          3. Restart the server
+          - Bukkit/Spigot/Paper/Folia: download `platform-bukkit-*.jar`, place in `plugins/`, restart
+          - Fabric: download `platform-fabric-*.jar` (requires proper mod loader setup)
+          - Quilt: download `platform-quilt-*.jar` (requires proper mod loader setup)
+          - Forge: download `platform-forge-*.jar` (requires proper mod loader setup)
+          - NeoForge: download `platform-neoforge-*.jar` (requires proper mod loader setup)
           
           ## Requirements
           - Minecraft: 1.21.5
-          - Server: Paper (or compatible)
+          - Server: Bukkit family (Spigot/Paper/Purpur/Folia) or Fabric/Quilt/Forge/NeoForge
           - Java: 21+
         draft: false
         prerelease: false

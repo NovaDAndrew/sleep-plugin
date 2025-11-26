@@ -1,6 +1,7 @@
 # SleepPlugin
 
-Minecraft Paper 1.21.x plugin for enhanced sleep mechanics - only half of online players need to sleep to skip the night.
+Minecraft plugin for enhanced sleep mechanics — only half of online players need to sleep to skip the night.
+Multi-platform workspace: Bukkit family (Spigot/Paper/Purpur/Folia), Fabric, Quilt, Forge, NeoForge.
 
 ## Features
 
@@ -22,6 +23,20 @@ Minecraft Paper 1.21.x plugin for enhanced sleep mechanics - only half of online
 - 5 players online: 2 players need to sleep ((5-1)/2 = 2)
 - 6 players online: 3 players need to sleep
 
+## Requirements
+
+- Minecraft: 1.21.5
+- Server/Loader: Bukkit family (Spigot/Paper/Purpur/Folia) or Fabric/Quilt/Forge/NeoForge
+- Java: 21+
+
+## Installation
+
+- Bukkit/Spigot/Paper/Folia: download `platform-bukkit-1.0.4.jar`, place in `plugins/`, restart
+- Fabric: download `platform-fabric-1.0.4.jar` (requires Fabric mod loader)
+- Quilt: download `platform-quilt-1.0.4.jar` (requires Quilt loader)
+- Forge: download `platform-forge-1.0.4.jar` (requires Forge setup)
+- NeoForge: download `platform-neoforge-1.0.4.jar` (requires NeoForge setup)
+
 ## Configuration
 
 After first server start with the plugin, a configuration file will be created at `plugins/SleepPlugin/config.yml`:
@@ -29,7 +44,7 @@ After first server start with the plugin, a configuration file will be created a
 ```yaml
 # SleepPlugin Configuration
 # Do not change this version number manually
-version: "1.0.3"
+version: "1.0.4"
 
 language: en_EN  
 skip-delay: 3    

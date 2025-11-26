@@ -1,5 +1,19 @@
 # SleepPlugin Changelog
 
+## Version 1.0.4 (2025-11-26)
+
+### Platforms
+- Restructured the project into a multi-platform architecture: `core` + platform modules
+- Added `platform-bukkit` with a Folia-compatible scheduler for smooth time transitions
+- Added skeleton modules: `platform-fabric`, `platform-quilt`, `platform-forge`, `platform-neoforge`
+- CI and Release workflows now publish artifacts for all platforms
+
+### Changes
+- Bumped project version to `1.0.4`
+- Updated configs and language files to `1.0.4`
+- Simplified build: Gradle 8.5, JDK 21
+
+---
 ## Version 1.0.3 (2025-10-xx)
 
 ### New Features

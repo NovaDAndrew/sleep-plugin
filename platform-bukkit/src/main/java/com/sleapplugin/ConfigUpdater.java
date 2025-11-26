@@ -13,55 +13,47 @@ import java.util.Set;
 import java.util.logging.Logger;
 
 public class ConfigUpdater {
-    
+
     private final JavaPlugin plugin;
     private final Logger logger;
     private final String currentVersion;
-    
+
     public ConfigUpdater(JavaPlugin plugin, String currentVersion) {
         this.plugin = plugin;
         this.logger = plugin.getLogger();
         this.currentVersion = currentVersion;
     }
-    
 
     public boolean updateConfig(String fileName, boolean saveComments) {
         File configFile = new File(plugin.getDataFolder(), fileName);
-        
-        if (!configFile.exists()) {
 
+        if (!configFile.exists()) {
             plugin.saveResource(fileName, false);
             return true;
         }
-        
 
         if (!needsUpdate(configFile, fileName)) {
             return false;
         }
-        
+
         logger.info("Updating " + fileName + " to version " + currentVersion);
-        
 
         FileConfiguration currentConfig = YamlConfiguration.loadConfiguration(configFile);
         String oldVersion = currentConfig.getString("version", "unknown");
-        
 
         InputStream defaultConfigStream = plugin.getResource(fileName);
         if (defaultConfigStream == null) {
             logger.warning("Could not find default " + fileName + " in plugin resources");
             return false;
         }
-        
+
         FileConfiguration defaultConfig = YamlConfiguration.loadConfiguration(
                 new InputStreamReader(defaultConfigStream));
-        
 
         boolean updated = updateConfigValues(currentConfig, defaultConfig, "", saveComments);
-        
-        if (updated) {
 
+        if (updated) {
             currentConfig.set("version", currentVersion);
-            
             try {
                 currentConfig.save(configFile);
                 logger.info("Successfully updated " + fileName + " from v" + oldVersion + " to v" + currentVersion);
@@ -71,53 +63,45 @@ public class ConfigUpdater {
                 return false;
             }
         }
-        
+
         return false;
     }
-    
 
     public boolean updateLanguageFile(String langCode) {
         String fileName = "lang/" + langCode + ".yml";
         File langFile = new File(plugin.getDataFolder(), fileName);
         File langDir = langFile.getParentFile();
-        
+
         if (!langDir.exists()) {
             langDir.mkdirs();
         }
-        
-        if (!langFile.exists()) {
 
+        if (!langFile.exists()) {
             plugin.saveResource(fileName, false);
             return true;
         }
-        
 
         if (!needsUpdate(langFile, fileName)) {
             return false;
         }
-        
+
         logger.info("Updating " + fileName + " to version " + currentVersion);
-        
 
         FileConfiguration currentLang = YamlConfiguration.loadConfiguration(langFile);
-        
 
         InputStream defaultLangStream = plugin.getResource(fileName);
         if (defaultLangStream == null) {
             logger.warning("Could not find default " + fileName + " in plugin resources");
             return false;
         }
-        
+
         FileConfiguration defaultLang = YamlConfiguration.loadConfiguration(
                 new InputStreamReader(defaultLangStream));
-        
 
         boolean updated = updateConfigValues(currentLang, defaultLang, "", false);
-        
-        if (updated) {
 
+        if (updated) {
             currentLang.set("version", currentVersion);
-            
             try {
                 currentLang.save(langFile);
                 logger.info("Successfully updated " + fileName + " to v" + currentVersion);
@@ -127,47 +111,38 @@ public class ConfigUpdater {
                 return false;
             }
         }
-        
+
         return false;
     }
-    
 
     private boolean needsUpdate(File file, String resourcePath) {
-
         FileConfiguration existingConfig = YamlConfiguration.loadConfiguration(file);
         String existingVersion = existingConfig.getString("version", "unknown");
-        
 
         if (existingVersion.equals("unknown")) {
             return true;
         }
-        
 
         InputStream defaultStream = plugin.getResource(resourcePath);
         if (defaultStream == null) {
             return false;
         }
-        
+
         FileConfiguration defaultConfig = YamlConfiguration.loadConfiguration(
                 new InputStreamReader(defaultStream));
-        
 
         return hasMissingKeys(existingConfig, defaultConfig, "");
     }
-    
 
     private boolean hasMissingKeys(FileConfiguration target, FileConfiguration source, String path) {
         if (path.isEmpty()) {
-
             for (String key : source.getKeys(false)) {
                 if (key.equals("version")) {
                     continue;
                 }
-                
                 if (!target.contains(key)) {
                     return true;
                 }
-                
                 if (source.isConfigurationSection(key)) {
                     boolean missingInSection = hasMissingKeys(target, source, key);
                     if (missingInSection) {
@@ -181,14 +156,11 @@ public class ConfigUpdater {
             if (sourceSection == null) {
                 return false;
             }
-            
             for (String key : sourceSection.getKeys(false)) {
                 String fullPath = path + "." + key;
-                
                 if (!target.contains(fullPath)) {
                     return true;
                 }
-                
                 if (source.isConfigurationSection(fullPath)) {
                     boolean missingInSection = hasMissingKeys(target, source, fullPath);
                     if (missingInSection) {
@@ -199,21 +171,17 @@ public class ConfigUpdater {
             return false;
         }
     }
-    
 
-    private boolean updateConfigValues(FileConfiguration target, FileConfiguration source, 
+    private boolean updateConfigValues(FileConfiguration target, FileConfiguration source,
                                       String path, boolean saveComments) {
         boolean updated = false;
-        
-        if (path.isEmpty()) {
 
+        if (path.isEmpty()) {
             Set<String> keys = source.getKeys(false);
             for (String key : keys) {
-
                 if (key.equals("version")) {
                     continue;
                 }
-                
                 if (source.isConfigurationSection(key)) {
                     if (!target.isConfigurationSection(key)) {
                         target.createSection(key);
@@ -232,10 +200,8 @@ public class ConfigUpdater {
             if (sourceSection == null) {
                 return false;
             }
-            
             for (String key : sourceSection.getKeys(false)) {
                 String fullPath = path + "." + key;
-                
                 if (source.isConfigurationSection(fullPath)) {
                     if (!target.isConfigurationSection(fullPath)) {
                         target.createSection(fullPath);
@@ -250,7 +216,7 @@ public class ConfigUpdater {
                 }
             }
         }
-        
         return updated;
     }
 }
+

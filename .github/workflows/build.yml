@@ -28,10 +28,14 @@ jobs:
     - name: Build with Gradle
       run: ./gradlew build
       
+    - name: Get plugin version
+      id: version
+      run: echo "VERSION=$(grep '^version' build.gradle.kts | head -1 | sed 's/version = //; s/\"//g')" >> $GITHUB_OUTPUT
+      
     - name: Upload build artifact
       uses: actions/upload-artifact@v4
       with:
-        name: SleepPlugin-${{ github.sha }}
+        name: SleepPlugin-${{ steps.version.outputs.VERSION }}
         path: build/libs/*.jar
         retention-days: 30
         

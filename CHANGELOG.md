@@ -1,5 +1,33 @@
 # SleepPlugin Changelog
 
+## Version 1.0.4 (2026-08-06)
+
+### New Features
+- Added support for Minecraft 26.x (Paper/Purpur/Spigot) and Java 25
+- Added configurable `sleep-percentage` (per world) - default 50%, clamped to 1-100
+- Added bossbar showing sleep progress (enabled/color/style/title configurable)
+- Added phantom prevention via `spawn_phantoms` game rule (`prevent-phantoms`)
+- Added per-world settings overrides (`world-settings` section)
+- Added admin command `/sleep reload|status` with tab completion
+- Added optional LuckyPerms integration (soft-dependency):
+  - Weighted sleep votes via `sleepplugin.weight` meta
+  - `sleepplugin.exempt` permission to exclude players from calculations
+  - `sleepplugin.bypass.min-players` permission to skip nights alone or below the minimum
+
+### Improvements
+- Updated build system to Gradle 9.6.1 with plugin-yml generation
+- Generated `plugin.yml` with command and permission registration
+- `sleep-percentage` keeps at least 1 player always required
+- Release workflow targets Minecraft 26.x / Java 25+
+
+### Technical Changes
+- Raised `api-version` to 26.1
+- `GameRule.getByName` now tries `spawn_phantoms` then `doInsomnia` (legacy) for cross-implementation support
+- Added LuckyPerms API as compileOnly dependency
+- CI build artifacts now named after the plugin version (e.g. `SleepPlugin-1.0.4`)
+
+---
+
 ## Version 1.0.3 (2025-10-xx)
 
 ### New Features

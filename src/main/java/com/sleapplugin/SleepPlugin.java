@@ -40,6 +40,7 @@ public class SleepPlugin extends JavaPlugin implements Listener, CommandExecutor
     private final Map<World, BossBar> bossBars = new HashMap<>();
     private final Map<World, Boolean> worldInsomniaState = new HashMap<>();
     private final Map<String, WorldSettings> worldSettings = new HashMap<>();
+    private final LuckPermsHook luckPermsHook = new LuckPermsHook();
     private LanguageManager lang;
     
     private int skipDelay;
@@ -82,6 +83,8 @@ public class SleepPlugin extends JavaPlugin implements Listener, CommandExecutor
         lang = new LanguageManager(this, getConfig().getString("language", "en_EN"));
         
         Bukkit.getPluginManager().registerEvents(this, this);
+        
+        luckPermsHook.init();
         
         if (getCommand("sleep") != null) {
             getCommand("sleep").setExecutor(this);
@@ -248,9 +251,11 @@ public class SleepPlugin extends JavaPlugin implements Listener, CommandExecutor
         }
         
         int onlinePlayersInWorld = countOnlinePlayers(world);
-        int requiredSleeping = calculateRequiredSleeping(onlinePlayersInWorld, world);
+        boolean bypass = sleeping != null && !sleeping.isEmpty() &&
+                sleeping.stream().anyMatch(luckPermsHook::canBypassMinPlayers);
+        int requiredSleeping = bypass ? 1 : calculateRequiredSleeping(onlinePlayersInWorld, world);
         
-        int currentSleeping = sleeping != null ? sleeping.size() : 0;
+        int currentSleeping = sleepingVotes(world);
         BukkitRunnable task = sleepTasks.get(world);
         if (task != null && !task.isCancelled() && currentSleeping < requiredSleeping) {
             task.cancel();
@@ -298,9 +303,13 @@ public class SleepPlugin extends JavaPlugin implements Listener, CommandExecutor
             case "status":
                 sendToSender(sender, lang.getMessage("command_status",
                         globalSleepPercentage, globalMinPlayersRequired, worldSettings.size()), MessageUtil.MessageColor.WHITE);
+                sendToSender(sender, luckPermsHook.isAvailable()
+                                ? lang.getMessage("command_status_luckperms_on")
+                                : lang.getMessage("command_status_luckperms_off"),
+                        MessageUtil.MessageColor.WHITE);
                 for (World world : Bukkit.getWorlds()) {
                     WorldSettings ws = settingsFor(world);
-                    int sleeping = sleepingPlayers.containsKey(world) ? sleepingPlayers.get(world).size() : 0;
+                    int sleeping = sleepingVotes(world);
                     int online = countOnlinePlayers(world);
                     int required = online > 0 ? calculateRequiredSleeping(online, world) : 0;
                     if (required == Integer.MAX_VALUE) {
@@ -368,12 +377,13 @@ public class SleepPlugin extends JavaPlugin implements Listener, CommandExecutor
         }
         
         WorldSettings settings = settingsFor(world);
-        if (onlinePlayersInWorld < settings.minPlayersRequired) {
+        boolean bypassMinPlayers = sleeping.stream().anyMatch(luckPermsHook::canBypassMinPlayers);
+        if (onlinePlayersInWorld < settings.minPlayersRequired && !bypassMinPlayers) {
             return;
         }
         
-        int requiredSleeping = calculateRequiredSleeping(onlinePlayersInWorld, world);
-        int currentSleeping = sleeping.size();
+        int requiredSleeping = bypassMinPlayers ? 1 : calculateRequiredSleeping(onlinePlayersInWorld, world);
+        int currentSleeping = sleepingVotes(world);
         
         if (currentSleeping >= requiredSleeping) {
             startNightSkip(world, currentSleeping, onlinePlayersInWorld);
@@ -445,11 +455,11 @@ public class SleepPlugin extends JavaPlugin implements Listener, CommandExecutor
                     return;
                 }
                 
-                int currentOnline = (int) world.getPlayers().stream()
-                        .filter(p -> !p.isSleepingIgnored())
-                        .count();
+                int currentOnline = countOnlinePlayers(world);
+                boolean bypass = currentSleeping.stream().anyMatch(luckPermsHook::canBypassMinPlayers);
+                int required = bypass ? 1 : calculateRequiredSleeping(currentOnline, world);
                 
-                if (currentSleeping.size() >= calculateRequiredSleeping(currentOnline, world)) {
+                if (sleepingVotes(world) >= required) {
                     boolean wasNight = isNight(world);
                     boolean wasStorm = world.isThundering() || world.hasStorm();
                     
@@ -525,7 +535,16 @@ public class SleepPlugin extends JavaPlugin implements Listener, CommandExecutor
                 .filter(p -> p.getWorld().equals(world))
                 .filter(p -> !p.isSleepingIgnored())
                 .filter(p -> !shouldIgnorePlayer(p))
+                .filter(p -> !luckPermsHook.isExempt(p))
                 .count();
+    }
+    
+    private int sleepingVotes(World world) {
+        Set<Player> sleeping = sleepingPlayers.get(world);
+        if (sleeping == null) {
+            return 0;
+        }
+        return sleeping.stream().mapToInt(luckPermsHook::playerWeight).sum();
     }
     
     private void updateBossBar(World world) {
@@ -546,7 +565,8 @@ public class SleepPlugin extends JavaPlugin implements Listener, CommandExecutor
             return;
         }
         
-        int required = calculateRequiredSleeping(online, world);
+        boolean bypass = sleeping.stream().anyMatch(luckPermsHook::canBypassMinPlayers);
+        int required = bypass ? 1 : calculateRequiredSleeping(online, world);
         if (required == Integer.MAX_VALUE) {
             removeBossBar(world);
             return;
@@ -554,7 +574,7 @@ public class SleepPlugin extends JavaPlugin implements Listener, CommandExecutor
         
         BossBar bar = bossBars.computeIfAbsent(world, w -> Bukkit.createBossBar("", bossbarColor, bossbarStyle));
         
-        int current = sleeping.size();
+        int current = sleepingVotes(world);
         bar.setTitle(formatBossBarTitle(current, required));
         bar.setProgress(Math.min(1.0, (double) current / required));
         bar.setVisible(true);

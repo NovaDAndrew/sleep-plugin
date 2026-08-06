@@ -10,6 +10,8 @@ Minecraft Paper plugin for enhanced sleep mechanics - only half of online player
 ## Features
 
 - Half of players needed to skip night
+- Configurable sleep percentage (per world)
+- Weighted sleep votes with LuckyPerms (optional soft-dependency)
 - Smart counting for odd player counts
 - Multiple message modes (normal, minimal, silent)
 - Storm and night skipping
@@ -18,6 +20,9 @@ Minecraft Paper plugin for enhanced sleep mechanics - only half of online player
 - Configuration update system (preserves settings during updates)
 - Multi-world support
 - Multi-language support (English, Russian, and custom languages)
+- Bossbar showing sleep progress
+- Phantom prevention (`spawn_phantoms` game rule)
+- Admin command `/sleep reload|status`
 
 ## Examples
 
@@ -26,6 +31,14 @@ Minecraft Paper plugin for enhanced sleep mechanics - only half of online player
 - 4 players online: 2 players need to sleep
 - 5 players online: 2 players need to sleep ((5-1)/2 = 2)
 - 6 players online: 3 players need to sleep
+
+With `sleep-percentage: 25`:
+
+- 4 players online: 1 player needs to sleep
+- 8 players online: 2 players need to sleep
+- 20 players online: 5 players need to sleep
+
+More examples are in the [`examples/`](examples/) folder (annotated `config.yml` and LuckyPerms setup guide).
 
 ## Requirements
 
@@ -103,6 +116,29 @@ storm-settings:
 
 - `/sleep status` — shows the current sleep percentage and per-world settings (permission: `sleepplugin.admin`)
 - `/sleep reload` — reloads the config and language files (permission: `sleepplugin.admin`)
+
+## LuckyPerms Integration
+
+SleepPlugin optionally integrates with [LuckyPerms](https://luckperms.net). It is a **soft-dependency**: without LuckyPerms the plugin behaves exactly as before (every player counts as 1). Just install LuckyPerms and it is detected automatically.
+
+**Weighted sleep votes** — set the `sleepplugin.weight` meta on a group or player to make their sleep count as multiple votes:
+
+```
+/lp group vip meta set sleepplugin.weight 2
+```
+
+A VIP with weight 2 counts as 2 sleeping players, so fewer donors are needed to skip the night. Weight is clamped to 1-100 and works with LuckyPerms contexts, so you can scope it per world/server:
+
+```
+/lp group vip meta set sleepplugin.weight 2 server=survival
+```
+
+**Permissions:**
+
+- `sleepplugin.exempt` — the player is not counted for sleep calculations at all (e.g., admins in creative/spectator). Default: false.
+- `sleepplugin.bypass.min-players` — a sleeping player with this permission skips the night even when below `min-players-required` or when sleeping alone. Default: false.
+
+**Note:** `sleepplugin.exempt` and `sleepplugin.bypass.min-players` are plain Bukkit permissions — they work with any permissions plugin, not only LuckyPerms.
 
 ## Custom Language Files
 

@@ -17,6 +17,7 @@ repositories {
 
 dependencies {
     compileOnly("io.papermc.paper:paper-api:26.2.build.+")
+    compileOnly("net.luckperms:api:5.4")
 }
 
 java {
@@ -30,11 +31,20 @@ bukkit {
     description = "A plugin that allows night skip with half of online players"
     apiVersion = "26.1"
     author = "NovaDAndrew" //Puer33 minecraft nickname
+    softDepend = listOf("LuckPerms")
     
     permissions {
         register("sleepplugin.admin") {
             description = "Allows access to sleep plugin admin commands"
             default = net.minecrell.pluginyml.bukkit.BukkitPluginDescription.Permission.Default.OP
+        }
+        register("sleepplugin.exempt") {
+            description = "Player is not counted for sleep percentage calculations"
+            default = net.minecrell.pluginyml.bukkit.BukkitPluginDescription.Permission.Default.FALSE
+        }
+        register("sleepplugin.bypass.min-players") {
+            description = "Allows night skip even when below min-players-required"
+            default = net.minecrell.pluginyml.bukkit.BukkitPluginDescription.Permission.Default.FALSE
         }
     }
 
@@ -49,6 +59,8 @@ bukkit {
 
 tasks {
     jar {
+        archiveBaseName.set("SleepPlugin")
+        archiveVersion.set(project.version.toString())
         manifest {
             attributes(
                 "Implementation-Title" to project.name,

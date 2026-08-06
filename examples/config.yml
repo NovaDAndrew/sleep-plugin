@@ -1,0 +1,57 @@
+# SleepPlugin example configuration
+# Full annotated example. Copy this file to plugins/SleepPlugin/config.yml
+# (the plugin generates its own config on first start with these defaults).
+
+# Do not change this version number manually
+version: "1.0.4"
+
+# Plugin message language: en_EN, ru_RU, or any custom code
+language: en_EN
+
+# Seconds before the night is skipped after enough players are sleeping
+skip-delay: 3
+
+# Minecraft time value set when skipping to morning (1000 = sunrise)
+morning-time: 1000
+
+# Message verbosity: normal | minimal | silent
+message-mode: normal
+
+# Minimum players needed for sleep mechanics to activate
+min-players-required: 2
+
+# Exclude players in Nether/End from calculations
+ignore-nether-end-players: true
+
+# Percentage of online players that must sleep to skip the night.
+# Clamped to 1-100. At least 1 player is always required.
+sleep-percentage: 50
+
+# Disable phantom spawning (spawn_phantoms game rule) while active
+prevent-phantoms: true
+
+# Bossbar showing sleep progress
+bossbar:
+  enabled: true
+  color: YELLOW # PINK, BLUE, RED, GREEN, YELLOW, PURPLE, WHITE
+  style: SOLID  # SOLID, SEGMENTED_6, SEGMENTED_10, SEGMENTED_12, SEGMENTED_20
+  title: "Sleeping %s/%s" # %s = sleeping count / required count
+
+# Smooth time transition
+smooth-time-transition:
+  enabled: true
+  duration-ticks: 60
+  steps: 60
+
+# Storm skipping
+storm-settings:
+  skip-storms: true
+
+# Per-world overrides. Uncomment and adjust to override settings for a world.
+# Use the exact world folder name (e.g. world, world_nether, world_the_end).
+# world-settings:
+#   world:
+#     sleep-percentage: 50
+#     min-players-required: 2
+#   world_nether:
+#     sleep-percentage: 30

@@ -27,3 +27,5 @@ command_no_permission: "У вас нет прав на использовани�
 command_usage: "Использование: /sleep <reload|status>"
 command_status: "Статус SleepPlugin - процент: %d%%, мин. игроков: %d, миров: %d"
 command_status_world: "  %s: спят %d/%d (процент %d%%, мин. игроков %d, включен %s)"
+command_status_luckperms_on: "LuckyPerms: включен (вес через meta sleepplugin.weight)"
+command_status_luckperms_off: "LuckyPerms: не обнаружен (вес всех игроков = 1)"

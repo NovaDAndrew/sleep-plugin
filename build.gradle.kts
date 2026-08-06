@@ -1,11 +1,10 @@
 plugins {
     java
-    id("net.minecrell.plugin-yml.bukkit") version "0.6.0"
-    id("com.github.johnrengelman.shadow") version "8.1.1"
+    id("de.eldoria.plugin-yml.bukkit") version "0.9.0"
 }
 
 group = "com.sleapplugin"
-version = "1.0.3"
+version = "1.0.4"
 description = "A plugin that allows night skip with half of online players"
 
 repositories {
@@ -14,41 +13,22 @@ repositories {
         name = "papermc"
         url = uri("https://repo.papermc.io/repository/maven-public/")
     }
-    maven {
-        name = "spigotmc"
-        url = uri("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
-    }
-    maven {
-        name = "sonatype"
-        url = uri("https://oss.sonatype.org/content/repositories/snapshots")
-    }
-    maven {
-        name = "sonatype-central"
-        url = uri("https://oss.sonatype.org/content/repositories/central")
-    }
-}
-
-configurations {
-    create("paperApi")
-    create("spigotApi")
 }
 
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:1.21.5-R0.1-SNAPSHOT")
-    "paperApi"("io.papermc.paper:paper-api:1.21.5-R0.1-SNAPSHOT")
-    "spigotApi"("org.spigotmc:spigot-api:1.21.5-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:26.2.build.+")
 }
 
 java {
-    toolchain.languageVersion.set(JavaLanguageVersion.of(21))
+    toolchain.languageVersion.set(JavaLanguageVersion.of(25))
 }
 
 bukkit {
     main = "com.sleapplugin.SleepPlugin"
     name = "SleepPlugin"
-    version = "1.0.3"
+    version = "1.0.4"
     description = "A plugin that allows night skip with half of online players"
-    apiVersion = "1.21"
+    apiVersion = "26.1"
     author = "NovaDAndrew" //Puer33 minecraft nickname
     
     permissions {

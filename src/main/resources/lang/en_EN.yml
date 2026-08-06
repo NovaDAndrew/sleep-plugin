@@ -1,5 +1,5 @@
 # Do not change this version number manually
-version: "1.0.3"
+version: "1.0.4"
 
 plugin_enabled: "SleepPlugin enabled! Now only half of the players are needed to skip the night."
 plugin_disabled: "SleepPlugin disabled!"

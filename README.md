@@ -5,7 +5,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Modrinth](https://img.shields.io/modrinth/dt/sleep-plugin?label=Modrinth&logo=modrinth)](https://modrinth.com/plugin/sleep-plugin)
 
-Minecraft Paper 1.21.х plugin for enhanced sleep mechanics - only half of online players need to sleep to skip the night.
+Minecraft Paper plugin for enhanced sleep mechanics - only half of online players need to sleep to skip the night. Available for Minecraft 1.21.x and 26.x.
 
 ## Features
 
@@ -29,13 +29,13 @@ Minecraft Paper 1.21.х plugin for enhanced sleep mechanics - only half of onlin
 
 ## Requirements
 
-- Minecraft: 1.21.5
+- Minecraft: 1.21.x or 26.x
 - Server: Paper (or compatible)
-- Java: 21+
+- Java: 21+ (for 1.21.x) / 25+ (for 26.x)
 
 ## Installation
 
-1. Download `SleepPlugin-1.0.3.jar`
+1. Download `SleepPlugin-1.0.4.jar`
 2. Place in server's `plugins` folder
 3. Restart server
 
@@ -46,7 +46,7 @@ After first server start with the plugin, a configuration file will be created a
 ```yaml
 # SleepPlugin Configuration
 # Do not change this version number manually
-version: "1.0.3"
+version: "1.0.4"
 
 language: en_EN  
 skip-delay: 3   
@@ -97,7 +97,7 @@ The plugin will automatically detect and load any custom language file you creat
 
 ## Building
 
-1. Install Java 21+
+1. Install Java 25+
 2. Clone repository
 3. Run: `./gradlew build`
 4. JAR file will be in `build/libs/`

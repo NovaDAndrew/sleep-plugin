@@ -37,7 +37,7 @@ public class SleepPlugin extends JavaPlugin implements Listener {
     
     private static final long PROGRESS_MESSAGE_COOLDOWN = 3000;
     
-    private static final String PLUGIN_VERSION = "1.0.3";
+    private static final String PLUGIN_VERSION = "1.0.4";
     
     @Override
     public void onEnable() {
@@ -406,7 +406,7 @@ public class SleepPlugin extends JavaPlugin implements Listener {
         String[] infoLines = {
             "\n",
             "  ╔═════════════════════════════════════════════════════════╗",
-            "  ║                    SleepPlugin v1.0.3                   ║",
+            "  ║                    SleepPlugin v1.0.4                   ║",
             "  ╠═════════════════════════════════════════════════════════╣",
             "  ║  Author: NovaDAndrew                                    ║",
             "  ║  Modrinth: https://modrinth.com/plugin/sleep-plugin     ║",

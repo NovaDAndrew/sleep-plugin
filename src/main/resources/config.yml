@@ -1,6 +1,6 @@
 # SleepPlugin Configuration
 # Do not change this version number manually
-version: "1.0.3"
+version: "1.0.4"
 
 language: en_EN  # Default language: en_EN, ru_RU, or any custom language code
 skip-delay: 3    # Delay in seconds before skipping night

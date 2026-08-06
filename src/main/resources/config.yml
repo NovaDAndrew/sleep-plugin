@@ -6,11 +6,24 @@ language: en_EN  # Default language: en_EN, ru_RU, or any custom language code
 skip-delay: 3    # Delay in seconds before skipping night
 morning-time: 1000  # Time to set when skipping to morning
 message-mode: normal  # Message mode options: normal, minimal, silent
+sleep-percentage: 50  # Percentage of players required to skip the night (1-100). 50 = half. At least 1 player is always required
 min-players-required: 2  # Minimum number of players required to activate sleep mechanics
 ignore-nether-end-players: true  # If true, players in the Nether or End will not be counted for sleep calculations
+prevent-phantoms: true  # If true, phantom spawning (doInsomnia) is disabled in all worlds while the plugin is enabled
 smooth-time-transition:
   enabled: true  # Whether to enable smooth time transition or instant time change
   duration-ticks: 60  # Duration of the transition in ticks (20 ticks = 1 second)
   steps: 60  # Number of steps in the transition, more steps = smoother transition
 storm-settings:
   skip-storms: true  # If true, players can skip storms by sleeping
+bossbar:
+  enabled: true  # If true, shows a progress bossbar to sleeping players
+  color: YELLOW  # Bossbar color: PINK, BLUE, RED, GREEN, YELLOW, PURPLE, WHITE
+  style: SOLID  # Bossbar style: SOLID, SEGMENTED_6, SEGMENTED_10, SEGMENTED_12, SEGMENTED_20
+  title: "Sleeping %s/%s"  # Bossbar title, %s = current sleeping / required
+world-settings:
+  # Per-world overrides. Replace "world" with your world name:
+  # world:
+  #   enabled: true
+  #   sleep-percentage: 40
+  #   min-players-required: 2

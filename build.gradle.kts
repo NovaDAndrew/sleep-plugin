@@ -37,6 +37,14 @@ bukkit {
             default = net.minecrell.pluginyml.bukkit.BukkitPluginDescription.Permission.Default.OP
         }
     }
+
+    commands {
+        register("sleep") {
+            description = "SleepPlugin admin commands"
+            usage = "/sleep <reload|status>"
+            permission = "sleepplugin.admin"
+        }
+    }
 }
 
 tasks {

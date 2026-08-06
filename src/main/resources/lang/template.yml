@@ -5,7 +5,7 @@
 # Use %d for numbers and %s for text placeholders - keep them in your translations
 
 # Do not change this version number manually
-version: "1.0.3"
+version: "1.0.4"
 
 # Basic plugin messages
 plugin_enabled: "SleepPlugin enabled! Now only half of the players are needed to skip the night."
@@ -33,3 +33,11 @@ storm_success: "Storm cleared! The skies are clear again!"
 # Storm messages (minimal mode)
 storm_countdown_minimal: "Clearing storm (%d/%d)"
 storm_success_minimal: "Storm cleared!"
+
+# Admin command messages
+command_reload_success: "SleepPlugin configuration reloaded!"
+command_reload_failed: "Failed to reload SleepPlugin configuration!"
+command_no_permission: "You don't have permission to use this command!"
+command_usage: "Usage: /sleep <reload|status>"
+command_status: "SleepPlugin status - percentage: %d%%, min players: %d, worlds: %d"
+command_status_world: "  %s: sleeping %d/%d (percentage %d%%, min players %d, enabled %s)"

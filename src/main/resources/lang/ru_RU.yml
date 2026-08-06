@@ -20,3 +20,10 @@ storm_countdown: "Прекращение шторма через %d секунд
 storm_success: "Шторм прекращен! Небо снова чистое!"
 storm_countdown_minimal: "Прекращение шторма (%d/%d)"
 storm_success_minimal: "Шторм прекращен!"
+
+command_reload_success: "Конфигурация SleepPlugin перезагружена!"
+command_reload_failed: "Не удалось перезагрузить конфигурацию SleepPlugin!"
+command_no_permission: "У вас нет прав на использование этой команды!"
+command_usage: "Использование: /sleep <reload|status>"
+command_status: "Статус SleepPlugin - процент: %d%%, мин. игроков: %d, миров: %d"
+command_status_world: "  %s: спят %d/%d (процент %d%%, мин. игроков %d, включен %s)"

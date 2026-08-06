@@ -54,12 +54,23 @@ morning-time: 1000
 message-mode: normal 
 min-players-required: 2 
 ignore-nether-end-players: true 
+sleep-percentage: 50 
+prevent-phantoms: true 
+bossbar:
+  enabled: true
+  color: YELLOW
+  style: SOLID
+  title: "Sleeping %s/%s"
 smooth-time-transition:
   enabled: true 
   duration-ticks: 60 
   steps: 60 
 storm-settings:
   skip-storms: true 
+# world-settings:
+#   world:
+#     sleep-percentage: 50
+#     min-players-required: 2
 ```
 
 ### Settings:
@@ -73,12 +84,25 @@ storm-settings:
   - `silent`: No messages at all
 - `min-players-required`: Minimum number of players needed to activate sleep mechanics (plugin won't work with fewer players)
 - `ignore-nether-end-players`: When true, players in Nether or End won't be counted for sleep calculations
+- `sleep-percentage`: Percentage of online players that must be sleeping to skip the night (clamped to 1-100, default 50). At least 1 player is always required
+- `prevent-phantoms`: When true, disables phantom spawning (`spawn_phantoms`/`doInsomnia` game rule) while the plugin is active
+- `bossbar`: Settings for the bossbar showing sleep progress
+  - `enabled`: Whether to show the sleep progress bossbar
+  - `color`: Bossbar color (PINK, BLUE, RED, GREEN, YELLOW, PURPLE, WHITE)
+  - `style`: Bossbar style (SOLID, SEGMENTED_6, SEGMENTED_10, SEGMENTED_12, SEGMENTED_20)
+  - `title`: Bossbar title shown to sleeping players (`%s` = sleeping count / required count)
 - `smooth-time-transition`: Settings for the smooth time transition feature
   - `enabled`: Whether to enable smooth transition or use instant time change
   - `duration-ticks`: How long the transition should take (in ticks, 20 ticks = 1 second)
   - `steps`: Number of intermediate steps (higher = smoother)
 - `storm-settings`: Settings for the storm skipping feature
   - `skip-storms`: When true, players can skip storms by sleeping
+- `world-settings`: Per-world overrides. Add a section named after a world to override `sleep-percentage` and `min-players-required` for that world only (e.g., `world-settings.my_world.sleep-percentage: 30`)
+
+### Command
+
+- `/sleep status` — shows the current sleep percentage and per-world settings (permission: `sleepplugin.admin`)
+- `/sleep reload` — reloads the config and language files (permission: `sleepplugin.admin`)
 
 ## Custom Language Files
 

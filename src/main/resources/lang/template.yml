@@ -8,7 +8,7 @@
 version: "1.0.4"
 
 # Basic plugin messages
-plugin_enabled: "SleepPlugin enabled! Now only half of the players are needed to skip the night."
+plugin_enabled: "SleepPlugin enabled! Now only a fraction of the online players are needed to skip the night."
 plugin_disabled: "SleepPlugin disabled!"
 config_updated: "Configuration updated from v%s to v%s. Added %d new settings."
 

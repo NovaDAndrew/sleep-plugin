@@ -5,7 +5,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Modrinth](https://img.shields.io/modrinth/dt/sleep-plugin?label=Modrinth&logo=modrinth)](https://modrinth.com/plugin/sleep-plugin)
 
-Minecraft Paper plugin for enhanced sleep mechanics - only half of online players need to sleep to skip the night. Available for Minecraft 1.21.x and 26.x.
+Minecraft Paper plugin for enhanced sleep mechanics - skip the night when a configurable percentage of online players (default half) are sleeping. Available for Minecraft 1.21.x and 26.x.
 
 ## Features
 

@@ -5,7 +5,7 @@ plugins {
 
 group = "com.sleapplugin"
 version = "1.0.4"
-description = "A plugin that allows night skip with half of online players"
+description = "A plugin that lets a configurable percentage of online players (default half) skip the night"
 
 repositories {
     mavenCentral()
@@ -28,7 +28,7 @@ bukkit {
     main = "com.sleapplugin.SleepPlugin"
     name = "SleepPlugin"
     version = "1.0.4"
-    description = "A plugin that allows night skip with half of online players"
+    description = "A plugin that lets a configurable percentage of online players (default half) skip the night"
     apiVersion = "26.1"
     author = "NovaDAndrew" //Puer33 minecraft nickname
     softDepend = listOf("LuckPerms")

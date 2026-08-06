@@ -2,7 +2,7 @@ name: Build SleepPlugin
 
 on:
   push:
-    branches: [ master, main, develop ]
+    branches: [ master, main, develop, '26.x' ]
   pull_request:
     branches: [ master, main ]
   workflow_dispatch:

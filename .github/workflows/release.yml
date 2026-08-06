@@ -58,9 +58,9 @@ jobs:
           3. Restart the server
           
           ## Requirements
-          - Minecraft: 1.21.5
+          - Minecraft: 1.21.x or 26.x
           - Server: Paper (or compatible)
-          - Java: 21+
+          - Java: 21+ (for 1.21.x) / 25+ (for 26.x)
         draft: false
         prerelease: false
       env:

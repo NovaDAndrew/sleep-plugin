@@ -2,7 +2,7 @@ name: Code Quality Check
 
 on:
   push:
-    branches: [ master, main, develop ]
+    branches: [ master, main, develop, '26.x' ]
   pull_request:
     branches: [ master, main ]
 
